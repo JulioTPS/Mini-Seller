@@ -1,0 +1,74 @@
+[
+  {
+    "id": "lead-001",
+    "name": "John Smith",
+    "company": "Tech Solutions Inc",
+    "email": "john.smith@techsolutions.com",
+    "source": "Website",
+    "score": 95,
+    "status": "new"
+  },
+  {
+    "id": "lead-002",
+    "name": "Sarah Johnson",
+    "company": "Global Enterprises",
+    "email": "sarah.johnson@globalent.com",
+    "source": "Referral",
+    "score": 87,
+    "status": "contacted"
+  },
+  {
+    "id": "lead-003",
+    "name": "Michael Brown",
+    "company": "Innovation Labs",
+    "email": "m.brown@innovationlabs.io",
+    "source": "Trade Show",
+    "score": 76,
+    "status": "qualified"
+  },
+  {
+    "id": "lead-004",
+    "name": "Emily Davis",
+    "company": "StartupCo",
+    "email": "emily@startupco.com",
+    "source": "LinkedIn",
+    "score": 82,
+    "status": "new"
+  },
+  {
+    "id": "lead-005",
+    "name": "David Wilson",
+    "company": "Enterprise Corp",
+    "email": "david.wilson@enterprise.com",
+    "source": "Cold Call",
+    "score": 69,
+    "status": "unqualified"
+  },
+  {
+    "id": "lead-006",
+    "name": "Lisa Garcia",
+    "company": "Future Tech",
+    "email": "lisa.garcia@futuretech.net",
+    "source": "Website",
+    "score": 91,
+    "status": "contacted"
+  },
+  {
+    "id": "lead-007",
+    "name": "Robert Taylor",
+    "company": "Digital Solutions",
+    "email": "robert.taylor@digitalsolutions.biz",
+    "source": "Partner",
+    "score": 78,
+    "status": "qualified"
+  },
+  {
+    "id": "lead-008",
+    "name": "Amanda Lee",
+    "company": "NextGen Systems",
+    "email": "amanda.lee@nextgensystems.com",
+    "source": "Webinar",
+    "score": 85,
+    "status": "new"
+  }
+]
