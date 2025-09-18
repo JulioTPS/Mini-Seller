@@ -11,6 +11,15 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --main-color: hsl(260, 93%, 72%);
+  --main-color-bright: hsl(260, 93%, 80%);
+  --main-color-dark: hsl(260, 93%, 64%);
+  --second-color: hsl(11, 24%, 72%);
+  --third-color: hsl(213, 55%, 10%);
+  --bright-color: hsl(40, 43%, 99%);
+  --dark-color: hsl(0, 0%, 12%);
+  --second-dark-color: hsl(230, 8%, 14%);
 }
 
 a {
@@ -56,13 +65,26 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: var(--dark-color);
+    background-color: var(--bright-color);
   }
   a:hover {
-    color: #747bff;
+    color: var(--main-color-dark);
   }
   button {
-    background-color: #f9f9f9;
+    background-color: var(--main-color);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: var(--bright-color);
+    background-color: var(--dark-color);
+  }
+  a:hover {
+    color: var(--main-color-bright);
+  }
+  button {
+    background-color: var(--main-color);
   }
 }
