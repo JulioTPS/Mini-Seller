@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Alice Johnson",
+    "company": "TechCorp",
+    "email": "alice@techcorp.com",
+    "source": "Web",
+    "score": 87,
+    "status": "New"
+  },
+  {
+    "id": 2,
+    "name": "Bob Smith",
+    "company": "FinServe",
+    "email": "bob@finserve.com",
+    "source": "Referral",
+    "score": 73,
+    "status": "Contacted"
+  }
+]
