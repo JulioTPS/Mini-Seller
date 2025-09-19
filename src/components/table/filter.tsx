@@ -23,6 +23,21 @@ export const Filter: React.FC<{
       />
     );
   } else if (Array.isArray(filterType)) {
-    return <div>{filterType} est un array</div>;
+    return (
+      <select
+        className="border p-1 mb-1 bg-gray-800"
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+      >
+        <option value=""></option>
+        {filterType.map((option) => (
+          <option key={option} value={option}>
+            {typeof option === "string"
+              ? option.charAt(0).toUpperCase() + option.slice(1)
+              : option}
+          </option>
+        ))}
+      </select>
+    );
   }
 };
