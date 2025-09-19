@@ -1,4 +1,8 @@
-export type LeadStatus = "new" | "contacted" | "qualified";
+export enum LeadStatus {
+  New = "new",
+  Contacted = "contacted",
+  Qualified = "qualified",
+}
 
 export interface Lead {
   id: number;
