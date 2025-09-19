@@ -4,21 +4,21 @@ import { LeadStatus, type Lead } from "../types/lead";
 import Table from "../components/table/table";
 import { getLeadsWithFilter } from "../API/leads";
 import type { SortAndFilterParams } from "../components/table/types";
+import { SidePanel } from "../components/side-panel/sidePanel";
+import { LeadForm } from "./leadsForm";
 
 const Leads: React.FC = () => {
   const [leadsData, setLeadsData] = useState<Lead[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [sortAndFilters, setSortAndFilters] =
     useState<SortAndFilterParams | null>(null);
+  const [selectedRow, setSelectedRow] = useState<Lead | null>(null);
 
   useEffect(() => {
     getLeadsWithFilter(sortAndFilters)
       .then((data) => setLeadsData(data))
       .catch((err) => setError(err.message));
   }, [sortAndFilters]);
-
-  if (error) return <div>Error: {error}</div>;
-  if (!leadsData || leadsData.length === 0) return <div>No data available</div>;
 
   const leadColumns: TableColumn<Lead>[] = [
     { header: "ID", accessor: "id" },
@@ -42,7 +42,15 @@ const Leads: React.FC = () => {
         onSortAndFilterChange={(query) =>
           query ? setSortAndFilters(query) : null
         }
+        onRowClick={(row) => setSelectedRow(row)}
       />
+      {(!leadsData || leadsData.length === 0) && <div>No data available</div>}
+      {error && <div>Error: {error}</div>}
+      {selectedRow && (
+        <SidePanel onClose={() => setSelectedRow(null)}>
+          <LeadForm lead={selectedRow} />
+        </SidePanel>
+      )}
     </>
   );
 };

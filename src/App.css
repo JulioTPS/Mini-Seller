@@ -10,3 +10,13 @@
 .card {
   padding: 2em;
 }
+
+input,
+select {
+  @apply border p-1 mb-1 bg-gray-800;
+}
+
+input:disabled,
+select:disabled {
+  @apply border p-1 mb-1 bg-gray-800 text-gray-500 cursor-not-allowed;
+}

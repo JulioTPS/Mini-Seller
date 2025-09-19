@@ -6,6 +6,7 @@ const Table = <T extends object>({
   columns,
   data,
   onSortAndFilterChange,
+  onRowClick,
 }: TableProps<T>) => {
   const [sorts, setSorts] = useState<Record<string, Sort>>({});
   const [filters, setFilters] = useState<Record<string, string>>({});
@@ -63,11 +64,15 @@ const Table = <T extends object>({
           </tr>
         </thead>
         <tbody>
-          {data.map((row, i) => (
-            <tr key={i} className="even:bg-gray-900">
+          {data.map((lead, i) => (
+            <tr
+              key={i}
+              className="even:bg-gray-900"
+              onClick={() => onRowClick(lead)}
+            >
               {columns.map((col) => (
                 <td key={String(col.accessor)} className="border p-2">
-                  {String(row[col.accessor])}
+                  {String(lead[col.accessor])}
                 </td>
               ))}
             </tr>

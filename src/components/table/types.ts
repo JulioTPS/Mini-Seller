@@ -15,6 +15,7 @@ export interface TableProps<T> {
   columns: TableColumn<T>[];
   data: T[];
   onSortAndFilterChange?: (params: SortAndFilterParams) => void;
+  onRowClick: (row: T) => void;
 }
 
 export type Sort = "asc" | "desc" | "";
