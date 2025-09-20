@@ -23,53 +23,63 @@ export const LeadForm: React.FC<{
         }}
       >
         <div>
-          <label>Name:</label>
+          <label>Name: </label>
           <input
             name="name"
             disabled
+            required
             value={form.name}
             onChange={handleChange}
           />
         </div>
         <div>
-          <label>Company:</label>
+          <label>Company: </label>
           <input
             name="company"
             disabled
+            required
             value={form.company}
             onChange={handleChange}
           />
         </div>
         <div>
-          <label>Email:</label>
+          <label>Email: </label>
           <input
             type="email"
             name="email"
+            required
             value={form.email}
             onChange={handleChange}
           />
         </div>
         <div>
-          <label>Source:</label>
+          <label>Source: </label>
           <input
             name="source"
             disabled
+            required
             value={form.source}
             onChange={handleChange}
           />
         </div>
         <div>
-          <label>Score:</label>
+          <label>Score: </label>
           <input
             name="score"
             disabled
+            required
             value={form.score}
             onChange={handleChange}
           />
         </div>
         <div>
-          <label>Status:</label>
-          <select name="status" value={form.status} onChange={handleChange}>
+          <label>Status: </label>
+          <select
+            required
+            name="status"
+            value={form.status}
+            onChange={handleChange}
+          >
             {Object.values(LeadStatus).map((option) => (
               <option key={option} value={option}>
                 {option}
