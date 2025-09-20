@@ -8,6 +8,8 @@ const Table = <T extends object>({
   filters,
   onFiltersChange,
   onRowClick,
+  onCustomButtonClick,
+  customButtonText,
 }: TableProps<T>) => {
   const [sortAndFilters, setFilters] = useState<SortAndFilterParams>(
     filters || ({} as SortAndFilterParams)
@@ -30,7 +32,7 @@ const Table = <T extends object>({
 
   return (
     <>
-      <table className="border-collapse border border-gray-300 w-full">
+      <table className="border-collapse border border-gray-300 w-full mt-14">
         <thead>
           <tr>
             {columns.map((col) => (
@@ -38,46 +40,43 @@ const Table = <T extends object>({
                 key={String(col.accessor)}
                 className="border p-2 text-left cursor-pointer"
               >
-                <div className="flex flex-col items-center">
-                  <div>
-                    <Filter
-                      filterType={col.columnFilterType}
-                      columnFilter={
-                        filters ? filters.filters[String(col.accessor)] : ""
-                      }
-                      columnSort={
-                        filters
-                          ? (filters.sorts[String(col.accessor)] as Sort)
-                          : ""
-                      }
-                      onFilterChange={(columnFilter, columnSort) =>
-                        handleFilterChange(
-                          col.accessor,
-                          columnFilter,
-                          columnSort
-                        )
-                      }
-                    >
-                      {col.header}
-                    </Filter>
-                  </div>
-                </div>
+                <Filter
+                  filterType={col.columnFilterType}
+                  columnFilter={
+                    filters ? filters.filters[String(col.accessor)] : ""
+                  }
+                  columnSort={
+                    filters ? (filters.sorts[String(col.accessor)] as Sort) : ""
+                  }
+                  onFilterChange={(columnFilter, columnSort) =>
+                    handleFilterChange(col.accessor, columnFilter, columnSort)
+                  }
+                >
+                  {col.header}
+                </Filter>
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
           {data.map((lead, i) => (
-            <tr
-              key={i}
-              className="even:bg-gray-900"
-              onClick={() => onRowClick(lead)}
-            >
+            <tr key={i} className="even:bg-gray-900">
               {columns.map((col) => (
-                <td key={String(col.accessor)} className="border p-2">
+                <td
+                  onClick={() => onRowClick(lead)}
+                  key={String(col.accessor)}
+                  className="border p-2 cursor-pointer"
+                >
                   {String(lead[col.accessor])}
                 </td>
               ))}
+              <td key="custom-button" className="border p-2">
+                {onCustomButtonClick && customButtonText && (
+                  <button onClick={() => onCustomButtonClick(lead)}>
+                    {customButtonText}
+                  </button>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

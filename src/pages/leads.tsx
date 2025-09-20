@@ -67,6 +67,8 @@ const Leads: React.FC = () => {
         filters={filters}
         onFiltersChange={(query) => (query ? onFiltersChange(query) : null)}
         onRowClick={(row) => setSelectedRow(row)}
+        onCustomButtonClick={(lead) => alert("Custom button clicked!")}
+        customButtonText="Convert to Opportunity"
       />
       {(!leadsData || leadsData.length === 0) && <div>No data available</div>}
       {error && <div>Error: {error}</div>}

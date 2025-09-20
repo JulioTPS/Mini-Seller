@@ -33,9 +33,10 @@ export const Filter: React.FC<{
   };
 
   return (
-    <>
+    <div className="flex flex-col items-center relative h-5 justify-end">
       {Array.isArray(filterType) ? (
         <select
+          className="relative bottom-2"
           value={columnFilterState}
           onChange={(e) => setColumnFilterState(e.target.value)}
         >
@@ -48,16 +49,21 @@ export const Filter: React.FC<{
         </select>
       ) : filterType === "string" ? (
         <input
+          className="relative bottom-2"
           type="text"
           value={columnFilterState}
           onChange={(e) => setColumnFilterState(e.target.value)}
         />
       ) : null}
-      <div onClick={() => handleSort()}>
+      <div
+        className="w-full flex justify-center items-center text-nowrap pl-[2ch]"
+        onClick={() => handleSort()}
+      >
         {children}
         {columnSort === "asc" && " ▲"}
         {columnSort === "desc" && " ▼"}
+        {columnSort === "" && <span className="w-[2ch]"></span>}
       </div>
-    </>
+    </div>
   );
 };
