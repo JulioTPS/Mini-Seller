@@ -1,7 +1,8 @@
 export enum LeadStatus {
   New = "New",
   Contacted = "Contacted",
-  Qualified = "Qualified",
+  Abandoned = "Abandoned",
+  Converted = "Converted",
 }
 
 export interface Lead {

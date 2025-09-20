@@ -74,13 +74,13 @@ const Table = <T extends object>({
                   {String(lead[col.accessor])}
                 </td>
               ))}
-              <td key="custom-button" className="border p-2">
-                {onCustomButtonClick && customButtonText && (
+              {onCustomButtonClick && customButtonText && (
+                <td key="custom-button" className="border p-2">
                   <button onClick={() => onCustomButtonClick(lead)}>
                     {customButtonText}
                   </button>
-                )}
-              </td>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

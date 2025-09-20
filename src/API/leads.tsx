@@ -1,21 +1,32 @@
 import type { Lead } from "../types/lead";
 import type { SortAndFilterParams } from "../components/table/types";
+import { resetOpportunitiesLocalStorage } from "./opportunities";
 
-export async function resetLeadsLocalJSON() {
+const LEADS_KEY = "leadsData";
+
+export async function resetLocalStorage() {
+  await resetLeadsLocalStorage();
+  await resetOpportunitiesLocalStorage();
+}
+
+export async function resetLeadsLocalStorage() {
   let res = await fetch(`/src/data/leads.json`);
   if (!res.ok) throw new Error(`Failed to load leads`);
 
   let data: Lead[] = await res.json();
-  localStorage.setItem("items", JSON.stringify(data));
+  localStorage.setItem(LEADS_KEY, JSON.stringify(data));
+}
+
+async function getLeadsLocal(): Promise<Lead[]> {
+  const raw = localStorage.getItem(LEADS_KEY);
+  if (!raw) throw new Error("Failed to load leads (simulated error)");
+  return JSON.parse(raw);
 }
 
 export async function getLeadsWithFilter(
   sortAndFilters: SortAndFilterParams | null
 ): Promise<Lead[]> {
-  const items = localStorage.getItem("items");
-  if (!items) throw new Error("Failed to load leads (simulated error)");
-
-  let data: Lead[] = JSON.parse(items);
+  let data = await getLeadsLocal();
   if (sortAndFilters) {
     let sortKeys = Object.keys(sortAndFilters.sorts).filter(
       (key) =>
@@ -55,15 +66,15 @@ export async function getLeadsWithFilter(
 }
 
 export async function putLead(form: Lead): Promise<void> {
-  const items = localStorage.getItem("items");
-  if (!items) throw new Error("Failed to load leads (simulated error)");
-  let leads: Lead[] = JSON.parse(items);
+  let leads = await getLeadsLocal();
 
   const idx = leads.findIndex((lead) => lead.id === form.id);
-  if (idx === -1) throw new Error(`Lead with id ${form.id} not found`);
-  leads[idx] = form;
-
-  localStorage.setItem("items", JSON.stringify(leads));
+  if (idx !== -1) {
+    leads[idx] = form;
+    localStorage.setItem(LEADS_KEY, JSON.stringify(leads));
+  } else {
+    throw new Error(`Lead with id ${form.id} not found`);
+  }
 }
 
 export default null;

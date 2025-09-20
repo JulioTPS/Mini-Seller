@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { TableColumn } from "../components/table/types";
 import { LeadStatus, type Lead } from "../types/lead";
 import Table from "../components/table/table";
-import { getLeadsWithFilter, putLead, resetLeadsLocalJSON } from "../API/leads";
+import { getLeadsWithFilter, putLead, resetLocalStorage } from "../API/leads";
+import { convertLeadToOpportunity } from "../API/opportunities";
 import type { SortAndFilterParams } from "../components/table/types";
 import { SidePanel } from "../components/side-panel/sidePanel";
-import { LeadForm } from "./leadsForm";
+import { LeadForm } from "./leadForm";
 
 const Leads: React.FC = () => {
+  const navigate = useNavigate();
   const [leadsData, setLeadsData] = useState<Lead[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<SortAndFilterParams | null>(() => {
     let saved = localStorage.getItem("lastLeadQuery");
     let filters: SortAndFilterParams = saved ? JSON.parse(saved) : null;
-    console.log("Loaded saved query:", filters);
     return filters;
   });
   const [selectedRow, setSelectedRow] = useState<Lead | null>(null);
@@ -25,10 +27,12 @@ const Leads: React.FC = () => {
   }, [filters]);
 
   function onSaveForm(form: Lead) {
-    setSelectedRow(null);
     putLead(form)
       .then(() => getLeadsWithFilter(filters))
-      .then((data) => setLeadsData(data))
+      .then((data) => {
+        setLeadsData(data);
+        setSelectedRow(null);
+      })
       .catch((err) => setError(err.message));
   }
 
@@ -37,11 +41,22 @@ const Leads: React.FC = () => {
     setFilters(params);
   }
 
-  function resetData() {
-    resetLeadsLocalJSON()
-      .then(() => getLeadsWithFilter(null))
-      .then((data) => setLeadsData(data))
-      .catch((err) => setError(err.message));
+  async function resetData() {
+    try {
+      await resetLocalStorage();
+      const data = await getLeadsWithFilter(null);
+      setLeadsData(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    }
+  }
+
+  async function convertLead(lead: Lead) {
+    await convertLeadToOpportunity(lead).then((opportunity) => {
+      navigate("/opportunities", {
+        state: { opportunity: opportunity },
+      });
+    });
   }
 
   const leadColumns: TableColumn<Lead>[] = [
@@ -59,15 +74,22 @@ const Leads: React.FC = () => {
   ];
 
   return (
-    <>
-      <button onClick={() => resetData()}>Reset Leads Data</button>
+    <div className="relative">
+      <button
+        className="absolute left-1 -top-16 !px-16"
+        onClick={() => resetData()}
+      >
+        Reset Data
+      </button>
       <Table
         columns={leadColumns}
         data={leadsData}
         filters={filters}
         onFiltersChange={(query) => (query ? onFiltersChange(query) : null)}
         onRowClick={(row) => setSelectedRow(row)}
-        onCustomButtonClick={(lead) => alert("Custom button clicked!")}
+        onCustomButtonClick={(lead) => {
+          convertLead(lead);
+        }}
         customButtonText="Convert to Opportunity"
       />
       {(!leadsData || leadsData.length === 0) && <div>No data available</div>}
@@ -80,7 +102,7 @@ const Leads: React.FC = () => {
           />
         </SidePanel>
       )}
-    </>
+    </div>
   );
 };
 
