@@ -17,7 +17,7 @@ export const Filter: React.FC<{
 
   useEffect(() => {
     if (onFilterChange) onFilterChange(columnFilterState, columnSortState);
-  }, [columnFilterState, columnSortState, onFilterChange]);
+  }, [columnFilterState, columnSortState]);
 
   const handleSort = () => {
     setColumnSortState((prev) => {

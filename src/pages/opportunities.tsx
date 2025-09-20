@@ -74,14 +74,16 @@ const OpportunitiesPage: React.FC = () => {
   ];
 
   return (
-    <div>
-      <Table
-        columns={opportunityColumns}
-        data={opportunitiesData}
-        filters={filters}
-        onFiltersChange={(query) => (query ? onFiltersChange(query) : null)}
-        onRowClick={(row) => setSelectedRow(row)}
-      />
+    <div className="relative card">
+      <div style={{ maxHeight: "60vh", overflowY: "auto", marginTop: "2rem" }}>
+        <Table
+          columns={opportunityColumns}
+          data={opportunitiesData}
+          filters={filters}
+          onFiltersChange={(query) => (query ? onFiltersChange(query) : null)}
+          onRowClick={(row) => setSelectedRow(row)}
+        />
+      </div>
       {(!opportunitiesData || opportunitiesData.length === 0) && (
         <div>No data available</div>
       )}

@@ -32,7 +32,7 @@ const Table = <T extends object>({
 
   return (
     <>
-      <table className="border-collapse border border-gray-300 w-full mt-14">
+      <table className="border-collapse border border-gray-300 w-full mt-14 overflow-scroll">
         <thead>
           <tr>
             {columns.map((col) => (
