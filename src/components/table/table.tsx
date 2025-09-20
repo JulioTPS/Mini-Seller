@@ -43,10 +43,14 @@ const Table = <T extends object>({
                 <Filter
                   filterType={col.columnFilterType}
                   columnFilter={
-                    filters ? filters.filters[String(col.accessor)] : ""
+                    filters?.filters
+                      ? filters.filters[String(col.accessor)]
+                      : ""
                   }
                   columnSort={
-                    filters ? (filters.sorts[String(col.accessor)] as Sort) : ""
+                    filters?.sorts
+                      ? (filters.sorts[String(col.accessor)] as Sort)
+                      : ""
                   }
                   onFilterChange={(columnFilter, columnSort) =>
                     handleFilterChange(col.accessor, columnFilter, columnSort)
