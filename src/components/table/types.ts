@@ -14,7 +14,8 @@ export interface SortAndFilterParams {
 export interface TableProps<T> {
   columns: TableColumn<T>[];
   data: T[];
-  onSortAndFilterChange?: (params: SortAndFilterParams) => void;
+  filters?: SortAndFilterParams | null;
+  onFiltersChange?: (params: SortAndFilterParams) => void;
   onRowClick: (row: T) => void;
 }
 
