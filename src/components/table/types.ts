@@ -1,4 +1,4 @@
-export type ColumnType = "string" | string[];
+export type ColumnType = "string" | string[] | "button";
 
 export interface TableColumn<T> {
   header: string;
@@ -14,8 +14,11 @@ export interface SortAndFilterParams {
 export interface TableProps<T> {
   columns: TableColumn<T>[];
   data: T[];
-  onSortAndFilterChange?: (params: SortAndFilterParams) => void;
+  filters?: SortAndFilterParams | null;
+  onFiltersChange?: (params: SortAndFilterParams) => void;
   onRowClick: (row: T) => void;
+  onCustomButtonClick?: (row: T) => void;
+  customButtonText?: string;
 }
 
 export type Sort = "asc" | "desc" | "";

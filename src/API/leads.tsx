@@ -1,13 +1,21 @@
 import type { Lead } from "../types/lead";
 import type { SortAndFilterParams } from "../components/table/types";
 
-export async function getLeadsWithFilter(
-  sortAndFilters: SortAndFilterParams | null
-): Promise<Lead[]> {
+export async function resetLeadsLocalJSON() {
   let res = await fetch(`/src/data/leads.json`);
   if (!res.ok) throw new Error(`Failed to load leads`);
 
   let data: Lead[] = await res.json();
+  localStorage.setItem("items", JSON.stringify(data));
+}
+
+export async function getLeadsWithFilter(
+  sortAndFilters: SortAndFilterParams | null
+): Promise<Lead[]> {
+  const items = localStorage.getItem("items");
+  if (!items) throw new Error("Failed to load leads (simulated error)");
+
+  let data: Lead[] = JSON.parse(items);
   if (sortAndFilters) {
     let sortKeys = Object.keys(sortAndFilters.sorts).filter(
       (key) =>
@@ -35,12 +43,6 @@ export async function getLeadsWithFilter(
           let filterValue = sortAndFilters.filters[key];
           let itemValue = item[key as keyof Lead];
           if (typeof itemValue === "string") {
-            console.log(
-              "data on filter",
-              itemValue,
-              filterValue,
-              itemValue.includes(filterValue)
-            );
             return itemValue.toLowerCase().includes(filterValue.toLowerCase());
           }
           return true;
@@ -50,6 +52,18 @@ export async function getLeadsWithFilter(
     return data;
   }
   return data;
+}
+
+export async function putLead(form: Lead): Promise<void> {
+  const items = localStorage.getItem("items");
+  if (!items) throw new Error("Failed to load leads (simulated error)");
+  let leads: Lead[] = JSON.parse(items);
+
+  const idx = leads.findIndex((lead) => lead.id === form.id);
+  if (idx === -1) throw new Error(`Lead with id ${form.id} not found`);
+  leads[idx] = form;
+
+  localStorage.setItem("items", JSON.stringify(leads));
 }
 
 export default null;

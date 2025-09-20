@@ -5,38 +5,34 @@ import { Filter } from "./filter";
 const Table = <T extends object>({
   columns,
   data,
-  onSortAndFilterChange,
+  filters,
+  onFiltersChange,
   onRowClick,
+  onCustomButtonClick,
+  customButtonText,
 }: TableProps<T>) => {
-  const [sorts, setSorts] = useState<Record<string, Sort>>({});
-  const [filters, setFilters] = useState<Record<string, string>>({});
+  const [sortAndFilters, setFilters] = useState<SortAndFilterParams>(
+    filters || ({} as SortAndFilterParams)
+  );
 
-  const handleSort = (accessor: keyof T) => {
-    setSorts((prev) => {
-      const key = String(accessor);
-      let nextOrder: Sort = "";
-      if (!prev[key]) nextOrder = "asc";
-      else if (prev[key] === "asc") nextOrder = "desc";
-      else if (prev[key] === "desc") nextOrder = "";
-      return { ...prev, [key]: nextOrder };
-    });
-  };
-
-  function handleFilterChange(column: keyof T, filter: string) {
-    setFilters((prev) => ({ ...prev, [String(column)]: filter }));
+  function handleFilterChange(
+    column: keyof T,
+    columnFilter: string,
+    columnSort: Sort
+  ) {
+    setFilters((prev) => ({
+      sorts: { ...prev.sorts, [String(column)]: columnSort },
+      filters: { ...prev.filters, [String(column)]: columnFilter },
+    }));
   }
 
   useEffect(() => {
-    if (onSortAndFilterChange)
-      onSortAndFilterChange({
-        sorts: sorts,
-        filters: filters,
-      } as SortAndFilterParams);
-  }, [sorts, filters]);
+    if (onFiltersChange) onFiltersChange(sortAndFilters);
+  }, [sortAndFilters]);
 
   return (
     <>
-      <table className="border-collapse border border-gray-300 w-full">
+      <table className="border-collapse border border-gray-300 w-full mt-14">
         <thead>
           <tr>
             {columns.map((col) => (
@@ -44,37 +40,43 @@ const Table = <T extends object>({
                 key={String(col.accessor)}
                 className="border p-2 text-left cursor-pointer"
               >
-                <div className="flex flex-col items-center">
-                  <div>
-                    <Filter
-                      filterType={col.columnFilterType}
-                      onFilterChange={(filters) =>
-                        handleFilterChange(col.accessor, filters)
-                      }
-                    />
-                  </div>
-                  <div onClick={() => handleSort(col.accessor)}>
-                    {col.header}
-                    {sorts[String(col.accessor)] === "asc" && " ▲"}
-                    {sorts[String(col.accessor)] === "desc" && " ▼"}
-                  </div>
-                </div>
+                <Filter
+                  filterType={col.columnFilterType}
+                  columnFilter={
+                    filters ? filters.filters[String(col.accessor)] : ""
+                  }
+                  columnSort={
+                    filters ? (filters.sorts[String(col.accessor)] as Sort) : ""
+                  }
+                  onFilterChange={(columnFilter, columnSort) =>
+                    handleFilterChange(col.accessor, columnFilter, columnSort)
+                  }
+                >
+                  {col.header}
+                </Filter>
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
           {data.map((lead, i) => (
-            <tr
-              key={i}
-              className="even:bg-gray-900"
-              onClick={() => onRowClick(lead)}
-            >
+            <tr key={i} className="even:bg-gray-900">
               {columns.map((col) => (
-                <td key={String(col.accessor)} className="border p-2">
+                <td
+                  onClick={() => onRowClick(lead)}
+                  key={String(col.accessor)}
+                  className="border p-2 cursor-pointer"
+                >
                   {String(lead[col.accessor])}
                 </td>
               ))}
+              <td key="custom-button" className="border p-2">
+                {onCustomButtonClick && customButtonText && (
+                  <button onClick={() => onCustomButtonClick(lead)}>
+                    {customButtonText}
+                  </button>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

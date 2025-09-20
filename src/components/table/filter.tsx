@@ -1,36 +1,69 @@
 import { useEffect, useState } from "react";
-import type { ColumnType } from "./types";
+import type { ColumnType, Sort } from "./types";
 
 export const Filter: React.FC<{
   filterType: ColumnType | undefined;
-  onFilterChange: (filter: string) => void;
-}> = ({ filterType, onFilterChange }) => {
-  const [filter, setFilter] = useState<string>("");
-
-  if (filterType === undefined) return null;
+  children?: React.ReactNode;
+  columnFilter?: string;
+  columnSort?: Sort;
+  onFilterChange: (columnFilter: string, columnSort: Sort) => void;
+}> = ({ filterType, children, columnFilter, columnSort, onFilterChange }) => {
+  const [columnFilterState, setColumnFilterState] = useState<string>(
+    columnFilter || ""
+  );
+  const [columnSortState, setColumnSortState] = useState<Sort>(
+    columnSort || ""
+  );
 
   useEffect(() => {
-    if (onFilterChange) onFilterChange(filter);
-  }, [filter]);
+    if (onFilterChange) onFilterChange(columnFilterState, columnSortState);
+  }, [columnFilterState, columnSortState]);
 
-  if (filterType === "string") {
-    return (
-      <input
-        type="text"
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-      />
-    );
-  } else if (Array.isArray(filterType)) {
-    return (
-      <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-        <option value=""></option>
-        {filterType.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    );
-  }
+  const handleSort = () => {
+    setColumnSortState((prev) => {
+      if (!prev) {
+        return "asc";
+      } else if (prev === "asc") {
+        return "desc";
+      } else {
+        // prev === "desc"
+        return "";
+      }
+    });
+  };
+
+  return (
+    <div className="flex flex-col items-center relative h-5 justify-end">
+      {Array.isArray(filterType) ? (
+        <select
+          className="relative bottom-2"
+          value={columnFilterState}
+          onChange={(e) => setColumnFilterState(e.target.value)}
+        >
+          <option value=""></option>
+          {filterType.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      ) : filterType === "string" ? (
+        <input
+          className="relative bottom-2"
+          type="text"
+          value={columnFilterState}
+          onChange={(e) => setColumnFilterState(e.target.value)}
+        />
+      ) : null}
+      <div
+        className="w-full flex justify-center items-center text-nowrap pl-[2ch]"
+        onClick={() => handleSort()}
+      >
+        {children}
+        {columnSort === "asc" && " ▲"}
+        {columnSort === "desc" && " ▼"}
+        {columnSort === "" && <span className="w-[2ch]"></span>}
+      </div>
+    </div>
+  );
 };
