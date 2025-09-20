@@ -11,7 +11,7 @@ export const OpportunityForm: React.FC<{
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    [e.target.name];
+    return [e.target.name];
   };
 
   return (

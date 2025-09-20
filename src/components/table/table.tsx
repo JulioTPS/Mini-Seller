@@ -28,7 +28,7 @@ const Table = <T extends object>({
 
   useEffect(() => {
     if (onFiltersChange) onFiltersChange(sortAndFilters);
-  }, [sortAndFilters]);
+  }, [sortAndFilters, onFiltersChange]);
 
   return (
     <>

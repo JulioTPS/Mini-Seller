@@ -6,10 +6,10 @@ import { putLead } from "./leads";
 const OPPORTUNITIES_KEY = "opportunitiesData";
 
 export async function resetOpportunitiesLocalStorage() {
-  let res = await fetch(`/src/data/opportunities.json`);
+  const res = await fetch(`/src/data/opportunities.json`);
   if (!res.ok) throw new Error(`Failed to load opportunities`);
 
-  let data: Opportunity[] = await res.json();
+  const data: Opportunity[] = await res.json();
   localStorage.setItem(OPPORTUNITIES_KEY, JSON.stringify(data));
 }
 
@@ -32,17 +32,17 @@ export async function getOpportunitiesWithFilter(
 ): Promise<Opportunity[]> {
   let data = await getOpportunitiesLocal();
   if (sortAndFilters) {
-    let sortKeys = Object.keys(sortAndFilters.sorts).filter(
+    const sortKeys = Object.keys(sortAndFilters.sorts).filter(
       (key) =>
         sortAndFilters.sorts[key] === "asc" ||
         sortAndFilters.sorts[key] === "desc"
     );
     if (sortKeys.length > 0) {
       data.sort((a, b) => {
-        for (let key of sortKeys) {
-          let order = sortAndFilters.sorts[key];
-          let aVal = a[key as keyof Opportunity];
-          let bVal = b[key as keyof Opportunity];
+        for (const key of sortKeys) {
+          const order = sortAndFilters.sorts[key];
+          const aVal = a[key as keyof Opportunity];
+          const bVal = b[key as keyof Opportunity];
           if (aVal === bVal) continue;
           if (aVal === undefined) return order === "asc" ? 1 : -1;
           if (bVal === undefined) return order === "asc" ? -1 : 1;
@@ -57,14 +57,14 @@ export async function getOpportunitiesWithFilter(
         return 0;
       });
     }
-    let filterKeys = Object.keys(sortAndFilters.filters).filter(
+    const filterKeys = Object.keys(sortAndFilters.filters).filter(
       (key) => sortAndFilters.filters[key] !== ""
     );
     if (filterKeys.length > 0) {
       data = data.filter((item) => {
         return filterKeys.every((key) => {
-          let filterValue = sortAndFilters.filters[key];
-          let itemValue = item[key as keyof Opportunity];
+          const filterValue = sortAndFilters.filters[key];
+          const itemValue = item[key as keyof Opportunity];
           if (typeof itemValue === "string") {
             return itemValue.toLowerCase().includes(filterValue.toLowerCase());
           }
@@ -80,8 +80,8 @@ export async function getOpportunitiesWithFilter(
 export async function convertLeadToOpportunity(
   lead: Lead
 ): Promise<Opportunity> {
-  let id: string = getNewOpportunityId();
-  let opportunity: Opportunity = {
+  const id: string = getNewOpportunityId();
+  const opportunity: Opportunity = {
     id: id,
     name: lead.name,
     stage: OpportunityStage.New,
@@ -101,8 +101,8 @@ export function getOpportunities(): Opportunity[] {
 }
 
 export async function putOpportunity(form: Opportunity): Promise<void> {
-  let opportunities = getOpportunitiesLocal();
-  let index = opportunities.findIndex((o) => o.id === form.id);
+  const opportunities = getOpportunitiesLocal();
+  const index = opportunities.findIndex((o) => o.id === form.id);
   if (index !== -1) {
     opportunities[index] = form;
     localStorage.setItem(OPPORTUNITIES_KEY, JSON.stringify(opportunities));

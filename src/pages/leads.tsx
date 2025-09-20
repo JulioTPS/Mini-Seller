@@ -14,8 +14,8 @@ const Leads: React.FC = () => {
   const [leadsData, setLeadsData] = useState<Lead[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<SortAndFilterParams | null>(() => {
-    let saved = localStorage.getItem("lastLeadQuery");
-    let filters: SortAndFilterParams = saved ? JSON.parse(saved) : null;
+    const saved = localStorage.getItem("lastLeadQuery");
+    const filters: SortAndFilterParams = saved ? JSON.parse(saved) : null;
     return filters;
   });
   const [selectedRow, setSelectedRow] = useState<Lead | null>(null);

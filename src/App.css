@@ -32,3 +32,14 @@ input:disabled,
 select:disabled {
   @apply border p-1 mb-1 bg-gray-900 text-gray-500 cursor-not-allowed;
 }
+
+form {
+  @apply space-y-4;
+}
+
+form > div {
+  @apply w-full;
+}
+form input {
+  @apply w-full;
+}

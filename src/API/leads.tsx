@@ -10,10 +10,10 @@ export async function resetLocalStorage() {
 }
 
 export async function resetLeadsLocalStorage() {
-  let res = await fetch(`/src/data/leads.json`);
+  const res = await fetch(`/src/data/leads.json`);
   if (!res.ok) throw new Error(`Failed to load leads`);
 
-  let data: Lead[] = await res.json();
+  const data: Lead[] = await res.json();
   localStorage.setItem(LEADS_KEY, JSON.stringify(data));
 }
 
@@ -28,31 +28,31 @@ export async function getLeadsWithFilter(
 ): Promise<Lead[]> {
   let data = await getLeadsLocal();
   if (sortAndFilters) {
-    let sortKeys = Object.keys(sortAndFilters.sorts).filter(
+    const sortKeys = Object.keys(sortAndFilters.sorts).filter(
       (key) =>
         sortAndFilters.sorts[key] === "asc" ||
         sortAndFilters.sorts[key] === "desc"
     );
     if (sortKeys.length > 0) {
       data.sort((a, b) => {
-        for (let key of sortKeys) {
-          let order = sortAndFilters.sorts[key];
-          let aVal = a[key as keyof Lead];
-          let bVal = b[key as keyof Lead];
+        for (const key of sortKeys) {
+          const order = sortAndFilters.sorts[key];
+          const aVal = a[key as keyof Lead];
+          const bVal = b[key as keyof Lead];
           if (aVal < bVal) return order === "asc" ? -1 : 1;
           if (aVal > bVal) return order === "asc" ? 1 : -1;
         }
         return 0;
       });
     }
-    let filterKeys = Object.keys(sortAndFilters.filters).filter(
+    const filterKeys = Object.keys(sortAndFilters.filters).filter(
       (key) => sortAndFilters.filters[key] !== ""
     );
     if (filterKeys.length > 0) {
       data = data.filter((item) => {
         return filterKeys.every((key) => {
-          let filterValue = sortAndFilters.filters[key];
-          let itemValue = item[key as keyof Lead];
+          const filterValue = sortAndFilters.filters[key];
+          const itemValue = item[key as keyof Lead];
           if (typeof itemValue === "string") {
             return itemValue.toLowerCase().includes(filterValue.toLowerCase());
           }
@@ -66,7 +66,7 @@ export async function getLeadsWithFilter(
 }
 
 export async function putLead(form: Lead): Promise<void> {
-  let leads = await getLeadsLocal();
+  const leads = await getLeadsLocal();
 
   const idx = leads.findIndex((lead) => lead.id === form.id);
   if (idx !== -1) {

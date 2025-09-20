@@ -15,16 +15,16 @@ import type {
 import { OpportunityForm } from "./opportunityForm";
 
 const OpportunitiesPage: React.FC = () => {
-  let location = useLocation();
-  let opportunity = location.state?.opportunity;
-  let [selectedRow, setSelectedRow] = useState<Opportunity | null>(null);
+  const location = useLocation();
+  const opportunity = location.state?.opportunity;
+  const [selectedRow, setSelectedRow] = useState<Opportunity | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<SortAndFilterParams | null>(() => {
-    let saved = localStorage.getItem("lastLeadQuery");
-    let filters: SortAndFilterParams = saved ? JSON.parse(saved) : null;
+    const saved = localStorage.getItem("lastLeadQuery");
+    const filters: SortAndFilterParams = saved ? JSON.parse(saved) : null;
     return filters;
   });
-  let [opportunitiesData, setOpportunitiesData] = useState<Opportunity[]>([]);
+  const [opportunitiesData, setOpportunitiesData] = useState<Opportunity[]>([]);
 
   useEffect(() => {
     getOpportunitiesWithFilter(filters)
@@ -34,7 +34,7 @@ const OpportunitiesPage: React.FC = () => {
 
   useEffect(() => {
     if (opportunity) {
-      let foundOpportunity = getOpportunities().find(
+      const foundOpportunity = getOpportunities().find(
         (o) => o.id === opportunity.id
       );
       if (foundOpportunity) setSelectedRow(foundOpportunity);

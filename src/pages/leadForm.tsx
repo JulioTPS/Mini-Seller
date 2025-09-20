@@ -11,7 +11,7 @@ export const LeadForm: React.FC<{
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    [e.target.name];
+    return [e.target.name];
   };
 
   return (
@@ -87,7 +87,9 @@ export const LeadForm: React.FC<{
             ))}
           </select>
         </div>
-        <button type="submit">Save</button>
+        <button className="mt-4" type="submit">
+          Save
+        </button>
       </form>
     </>
   );
