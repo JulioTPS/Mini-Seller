@@ -84,10 +84,9 @@ const OpportunitiesPage: React.FC = () => {
           onRowClick={(row) => setSelectedRow(row)}
         />
       </div>
-      {(!opportunitiesData || opportunitiesData.length === 0) && (
-        <div>No data available</div>
+      {error && (
+        <div className="text-center py-2 text-red-600">Error: {error}</div>
       )}
-      {error && <div>Error: {error}</div>}
       {selectedRow && (
         <SidePanel onClose={() => setSelectedRow(null)}>
           <OpportunityForm

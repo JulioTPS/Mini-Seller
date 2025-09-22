@@ -75,27 +75,24 @@ const Leads: React.FC = () => {
 
   return (
     <div className="relative card">
-      <button
-        className="absolute left-1 -top-16 !px-16"
-        onClick={() => resetData()}
-      >
+      <button className="!px-16" onClick={() => resetData()}>
         Reset Data
       </button>
-      <div style={{ maxHeight: "60vh", overflowY: "auto", marginTop: "2rem" }}>
-        <Table
-          columns={leadColumns}
-          data={leadsData}
-          filters={filters}
-          onFiltersChange={(query) => (query ? onFiltersChange(query) : null)}
-          onRowClick={(row) => setSelectedRow(row)}
-          onCustomButtonClick={(lead) => {
-            convertLead(lead);
-          }}
-          customButtonText="Convert to Opportunity"
-        />
-      </div>
-      {(!leadsData || leadsData.length === 0) && <div>No data available</div>}
-      {error && <div>Error: {error}</div>}
+      <Table
+        columns={leadColumns}
+        data={leadsData}
+        filters={filters}
+        onFiltersChange={(query) => (query ? onFiltersChange(query) : null)}
+        onRowClick={(row) => setSelectedRow(row)}
+        onCustomButtonClick={(lead) => {
+          convertLead(lead);
+        }}
+        customButtonText="Convert to Opportunity"
+      />
+
+      {error && (
+        <div className="text-center py-2 text-red-600">Error: {error}</div>
+      )}
       {selectedRow && (
         <SidePanel onClose={() => setSelectedRow(null)}>
           <LeadForm

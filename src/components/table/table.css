@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+.table-filters {
+  @apply flex h-8 w-full;
+}
+
+.table-filters select,
+.table-filters input {
+  @apply w-full;
+}
+
+button {
+  @apply text-xs p-0.5;
+}
+
+.filter-icon {
+  @apply absolute w-8 opacity-15 h-1/2;
+}
