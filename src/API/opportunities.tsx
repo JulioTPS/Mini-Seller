@@ -6,7 +6,7 @@ import { putLead } from "./leads";
 const OPPORTUNITIES_KEY = "opportunitiesData";
 
 export async function resetOpportunitiesLocalStorage() {
-  const res = await fetch(`/src/data/opportunities.json`);
+  const res = await fetch(`/data/opportunities.json`);
   if (!res.ok) throw new Error(`Failed to load opportunities`);
 
   const data: Opportunity[] = await res.json();

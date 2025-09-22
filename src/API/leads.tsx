@@ -10,7 +10,7 @@ export async function resetLocalStorage() {
 }
 
 export async function resetLeadsLocalStorage() {
-  const res = await fetch(`/src/data/leads.json`);
+  const res = await fetch(`/data/leads.json`);
   if (!res.ok) throw new Error(`Failed to load leads`);
 
   const data: Lead[] = await res.json();
