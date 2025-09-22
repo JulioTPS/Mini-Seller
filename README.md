@@ -1,6 +1,6 @@
 # Mini-Seller
 
-A lightweight console to triage Leads and convert them into Opportunities.
+A lightweight console to triage Leads and convert them into Opportunities. Made under 72 hours.
 
 it is suported with Node v23.3.0
 
