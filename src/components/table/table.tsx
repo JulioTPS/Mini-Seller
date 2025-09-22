@@ -31,14 +31,14 @@ const Table = <T extends object>({
   }, [sortAndFilters, onFiltersChange]);
 
   return (
-    <>
-      <table className="border-collapse border border-gray-300 w-full mt-14 overflow-scroll">
+    <div className="overflow-auto h-11/12 border-2 border-gray-400 rounded-md">
+      <table className="w-full ">
         <thead>
           <tr>
             {columns.map((col) => (
               <th
                 key={String(col.accessor)}
-                className="border p-2 text-left cursor-pointer"
+                className="border border-gray-400 p-2 text-left"
               >
                 <Filter
                   filterType={col.columnFilterType}
@@ -83,9 +83,16 @@ const Table = <T extends object>({
               )}
             </tr>
           ))}
+          {(!data || data.length === 0) && (
+            <tr>
+              <td colSpan={columns.length} className="text-center py-8">
+                No data available
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 

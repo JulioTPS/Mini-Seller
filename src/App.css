@@ -1,11 +1,21 @@
 @import "tailwindcss";
 
+:root {
+  @apply text-violet-50 bg-gray-950 font-normal font-sans;
+
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 #root {
-  @apply w-dvw h-dvh p-0 px-16 m-0 flex flex-col justify-center items-center;
+  @apply w-dvw h-dvh max-w-dvw max-h-dvh p-0 m-0 flex flex-col justify-center items-center overflow-hidden;
 }
 
 nav {
-  @apply w-full h-auto p-4 text-violet-200 flex justify-center items-center absolute top-0 gap-8 shadow-lg shadow-violet-700;
+  @apply w-full h-1/12 p-4 text-violet-200 flex justify-center items-center gap-8 shadow-lg shadow-violet-700;
 }
 
 nav a,
@@ -14,6 +24,14 @@ nav a:visited {
 }
 nav a:hover {
   @apply bg-violet-900 text-violet-50;
+}
+
+.content {
+  @apply w-full h-11/12 box-border flex flex-col justify-center items-center;
+}
+
+.card {
+  @apply bg-gray-800/40 border border-gray-700 rounded-lg p-4 shadow-md h-11/12 w-10/12 flex flex-col justify-between;
 }
 
 button {
@@ -42,8 +60,4 @@ form > div {
 }
 form input {
   @apply w-full;
-}
-
-.card {
-  @apply bg-gray-800/40 border border-gray-700 rounded-lg p-4 shadow-md;
 }

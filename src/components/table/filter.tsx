@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ColumnType, Sort } from "./types";
+import "./table.css";
 
 export const Filter: React.FC<{
   filterType: ColumnType | undefined;
@@ -33,12 +34,11 @@ export const Filter: React.FC<{
   };
 
   return (
-    <div className="flex flex-col items-center relative h-5 justify-end">
+    <div className="flex flex-col items-center relative justify-end">
       {Array.isArray(filterType) ? (
-        <div className="relative bottom-2 flex">
-          <img src="/search.svg" alt="Filter Icon" className="h-full" />
+        <div className="table-filters">
+          <img src="/search.svg" alt="Filter Icon" className="filter-icon" />
           <select
-            className="relative"
             value={columnFilterState}
             onChange={(e) => setColumnFilterState(e.target.value)}
           >
@@ -51,18 +51,19 @@ export const Filter: React.FC<{
           </select>
         </div>
       ) : filterType === "string" ? (
-        <div className="relative bottom-2 flex">
-          <img src="/search.svg" alt="Filter Icon" className="h-full" />
+        <div className="table-filters">
+          <img src="/search.svg" alt="Filter Icon" className="filter-icon" />
           <input
-            className=""
             type="text"
             value={columnFilterState}
             onChange={(e) => setColumnFilterState(e.target.value)}
           />
         </div>
-      ) : null}
+      ) : (
+        <div className="h-8"></div>
+      )}
       <div
-        className="w-full flex justify-center items-center text-nowrap pl-[2ch]"
+        className="w-full flex justify-center items-center text-nowrap pl-[2ch] cursor-pointer border-t border-gray-300"
         onClick={() => handleSort()}
       >
         {children}

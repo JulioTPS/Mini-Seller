@@ -10,11 +10,14 @@ function App() {
         <Link to="/leads">Leads</Link>
         <Link to="/opportunities">Opportunities</Link>
       </nav>
-      <Routes>
-        <Route path="/leads" element={<Leads />} />
-        <Route path="/opportunities" element={<OpportunitiesPage />} />
-        <Route path="/" element={<Navigate to="/leads" replace />} />
-      </Routes>
+
+      <div className="content">
+        <Routes>
+          <Route path="/leads" element={<Leads />} />
+          <Route path="/opportunities" element={<OpportunitiesPage />} />
+          <Route path="/" element={<Navigate to="/leads" replace />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }
